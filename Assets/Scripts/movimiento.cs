@@ -9,39 +9,35 @@ public class movimiento : MonoBehaviour
     private float Horizontal; 
     private Rigidbody2D Rigidbody2D;
     private bool Grounded;
-    // Start is called before the first frame update
    
     void Start()
     {
         Rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
     void Update()
-    {
-        Horizontal = Input.GetAxisRaw("Horizontal"); // a= -1, d = 1, nada = 0
+    { 
+        Horizontal = Input.GetAxisRaw("Horizontal"); // 'a' = -1, 'd' = 1, nada = 0
 
-        if(Physics2D.Raycast(transform.position, Vector3.down, 0.1f))
+        if(Physics2D.Raycast(transform.position, Vector3.down, 0.2f))
         {
             Grounded = true;
         }        
         else{ 
             Grounded = false; 
         }
+
         if (Input.GetKeyDown(KeyCode.W) && Grounded){
             jump();
         }
-        if (Input.GetKeyDown(KeyCode.C ))
-        {
+        if (Input.GetKeyDown(KeyCode.C ) && Grounded){
             Run();
         }
-        else {
+        else{
             Walk();
         }
-
     }
 
-    
     private void jump()
     {
         Rigidbody2D.AddForce(Vector2.up * JumpForce);
@@ -58,7 +54,5 @@ public class movimiento : MonoBehaviour
     private void FixedUpdate()
     {
         Rigidbody2D.velocity = new Vector2(Horizontal, Rigidbody2D.velocity.y);
-
-
     }
 }
