@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class movimiento : MonoBehaviour
-{   public float WalkSpeed; 
-    public float RunSpeed; 
+{  
     public float JumpForce;
+    public float WalkSpeed; 
+    public float RunSpeed; 
     private float Horizontal; 
     private Rigidbody2D Rigidbody2D;
     private bool Grounded;
@@ -16,36 +17,44 @@ public class movimiento : MonoBehaviour
     }
 
     void Update()
-    { 
+    {
         Horizontal = Input.GetAxisRaw("Horizontal"); // 'a' = -1, 'd' = 1, nada = 0
 
-        if(Physics2D.Raycast(transform.position, Vector3.down, 0.2f))
+        if (Physics2D.Raycast(transform.position, Vector2.down, 0.2f))
         {
+            // Verifica si el personaje está en el suelo creando un rayo hacia abajo
             Grounded = true;
         }        
-        else{ 
+        else
+        { 
             Grounded = false; 
         }
 
-        if (Input.GetKeyDown(KeyCode.W) && Grounded){
-            jump();
+        if (Input.GetKeyDown(KeyCode.W) && Grounded)
+        {
+            Jump();
         }
-        if (Input.GetKeyDown(KeyCode.C ) && Grounded){
+
+        if (Input.GetKey(KeyCode.B)) 
+        {
             Run();
         }
-        else{
+        else
+        {
             Walk();
         }
     }
 
-    private void jump()
+    private void Jump()
     {
         Rigidbody2D.AddForce(Vector2.up * JumpForce);
     }
+
     private void Run()
     {
-        Rigidbody2D.velocity = new Vector2(Horizontal * RunSpeed, Rigidbody2D.velocity.y);
+    Rigidbody2D.velocity = new Vector2(Horizontal * RunSpeed, Rigidbody2D.velocity.y);
     }
+
     private void Walk()
     {
         Rigidbody2D.velocity = new Vector2(Horizontal * WalkSpeed, Rigidbody2D.velocity.y);
@@ -53,6 +62,8 @@ public class movimiento : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Rigidbody2D.velocity = new Vector2(Horizontal, Rigidbody2D.velocity.y);
+        // Se usa para física ya que se verifica cada cierto tiempo a diferencia de Update
+        // que se verifica cada ciertos fotogramas. Esto lo hace más consistente. 
+        //Rigidbody2D.velocity = new Vector2(Horizontal * WalkSpeed, Rigidbody2D.velocity.y);
     }
 }
