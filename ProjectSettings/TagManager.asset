@@ -41,3 +41,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Fondo
+    uniqueID: 1326105333
+    locked: 0
+  - name: Objetos
+    uniqueID: 4225837897
+    locked: 0
+  - name: Player
+    uniqueID: 35802993
+    locked: 0
+  - name: Suelo
+    uniqueID: 4281693645
+    locked: 0

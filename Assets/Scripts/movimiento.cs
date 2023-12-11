@@ -11,10 +11,12 @@ public class movimiento : MonoBehaviour
     private Rigidbody2D Rigidbody2D;
     private bool Grounded;
     private bool mirando_derecha = true;
+    private Animator animator;
    
     void Start()
     {
         Rigidbody2D = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -37,7 +39,7 @@ public class movimiento : MonoBehaviour
         }
 
         if (Input.GetKey(KeyCode.B)) 
-        {
+        { 
             Run();
         }
         else
@@ -53,12 +55,20 @@ public class movimiento : MonoBehaviour
 
     private void Run()
     {
+    animator.SetBool("corriendo", true);
     Horizontal = Horizontal * RunSpeed;
     }
 
     private void Walk()
     {
     Horizontal = Horizontal * WalkSpeed;
+    if (Horizontal != 0f ){
+    animator.SetBool("corriendo", true);
+    }
+    else{
+        animator.SetBool("corriendo", false);
+    
+    }
     }
 
     private void Girar()
@@ -73,7 +83,6 @@ public class movimiento : MonoBehaviour
     {
         // Se usa para física ya que se verifica cada cierto tiempo a diferencia de Update
         // que se verifica cada ciertos fotogramas. Esto lo hace más consistente. 
-
         Rigidbody2D.velocity = new Vector2(Horizontal, Rigidbody2D.velocity.y);
         if(Horizontal < 0 && mirando_derecha){
             Girar();
