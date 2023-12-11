@@ -10,6 +10,7 @@ public class movimiento : MonoBehaviour
     private float Horizontal; 
     private Rigidbody2D Rigidbody2D;
     private bool Grounded;
+    private bool mirando_derecha = true;
    
     void Start()
     {
@@ -52,18 +53,33 @@ public class movimiento : MonoBehaviour
 
     private void Run()
     {
-    Rigidbody2D.velocity = new Vector2(Horizontal * RunSpeed, Rigidbody2D.velocity.y);
+    Horizontal = Horizontal * RunSpeed;
     }
 
     private void Walk()
     {
-        Rigidbody2D.velocity = new Vector2(Horizontal * WalkSpeed, Rigidbody2D.velocity.y);
+    Horizontal = Horizontal * WalkSpeed;
+    }
+
+    private void Girar()
+    {
+        mirando_derecha = !mirando_derecha;
+        Vector3 escala = transform.localScale;
+        escala.x *= -1;
+        transform.localScale = escala;
     }
 
     private void FixedUpdate()
     {
         // Se usa para física ya que se verifica cada cierto tiempo a diferencia de Update
         // que se verifica cada ciertos fotogramas. Esto lo hace más consistente. 
-        //Rigidbody2D.velocity = new Vector2(Horizontal * WalkSpeed, Rigidbody2D.velocity.y);
+
+        Rigidbody2D.velocity = new Vector2(Horizontal, Rigidbody2D.velocity.y);
+        if(Horizontal < 0 && mirando_derecha){
+            Girar();
+        }
+        else if(Horizontal > 0 && !mirando_derecha){
+            Girar();
+        }
     }
 }
